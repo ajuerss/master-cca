@@ -7,6 +7,8 @@ import java.util.Set;
 
 public class Simulator {
     private final List<Node> nodes;
+    private final ArrayList<Integer> maxDistancePerStep = new ArrayList<>();
+    private int requiredSteps;
 
     public Simulator(int power) {
         int maxNodeNumber = (int) Math.pow(2, power);
@@ -31,17 +33,33 @@ public class Simulator {
         return nodes;
     }
 
-    public List<Node> perform(Algorithm algorithm) throws Exception {
+    public int getRequiredSteps() {return requiredSteps;}
+
+    public void perform(Algorithm algorithm) throws Exception {
+        requiredSteps = algorithm.getNecessarySteps();
         for (int step = 0; step < algorithm.getNecessarySteps(); step++) {
+            int maxDistance = 0;
             for (Node node : nodes) {
                 int indexOfCommunicatingNode = algorithm.compute_communication_partner_node(node.getId(), step);
-                node.addSeenNode(nodes.get(indexOfCommunicatingNode).getSeenNodeToStep(step));
+                int distance = this.getDistanceBetweenNodes(node.getId(), indexOfCommunicatingNode);
+                if (Math.abs(distance) > maxDistance) maxDistance = Math.abs(distance);
+                Node communicationNode = node;
+                if (distance > 0) {
+                    for(int j = 0; j < distance; j++) {
+                        communicationNode = communicationNode.getRight();
+                    }
+                } else {
+                    for(int j = 0; j < Math.abs(distance); j++) {
+                        communicationNode = communicationNode.getLeft();
+                    }
+                }
+                node.addSeenNode(communicationNode.getSeenNodeToStep(step));
             }
+            maxDistancePerStep.add(maxDistance);
         }
         if (!this.allNodesShared()){
             throw new Exception("algorithm is not correct");
         }
-        return nodes;
     }
 
     public boolean allNodesShared() {
@@ -73,7 +91,7 @@ public class Simulator {
     public int getDistanceBetweenNodes(int a, int b) {
         int rightDist = (b-a+nodes.size())% nodes.size();
         int leftDist = (a-b+nodes.size())% nodes.size();
-        if (rightDist > leftDist) {
+        if (rightDist >= leftDist) {
             return rightDist;
         } else {
             return -1 * leftDist;

@@ -1,8 +1,6 @@
 import algorithms.Algorithm;
 import algorithms.RecursiveDoubling;
 
-import java.util.List;
-
 public class MainCollective {
     public static void main(String[] args) throws Exception {
         for (int i = 4; i <= 4; i++) {
@@ -10,7 +8,7 @@ public class MainCollective {
             Simulator s = new Simulator(i);
             Algorithm a = new RecursiveDoubling(1 << i);
             System.out.println(a.getAlgorithmName() + " is being performed");
-            List<Node> finalNodes = s.perform(a);
+            s.perform(a);
         }
     }
 }
