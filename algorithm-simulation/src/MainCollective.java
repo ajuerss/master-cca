@@ -21,7 +21,6 @@ public class MainCollective {
                 System.out.println(a.getAlgorithmName() + " is being performed");
                 s.perform(a);
                 Parameters.log("------------------------------------");
-
             }
         }
     }
