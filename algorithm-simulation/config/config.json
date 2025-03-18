@@ -1,0 +1,6 @@
+{
+  "logging": true,
+  "recursive_doubling": true,
+  "debug": true,
+  "network_sizes" : [4, 5]
+}

@@ -8,7 +8,6 @@ import java.util.Set;
 public class Simulator {
     private final List<Node> nodes;
     private final ArrayList<Integer> maxDistancePerStep = new ArrayList<>();
-    private int requiredSteps;
 
     public Simulator(int power) {
         int maxNodeNumber = (int) Math.pow(2, power);
@@ -33,11 +32,10 @@ public class Simulator {
         return nodes;
     }
 
-    public int getRequiredSteps() {return requiredSteps;}
-
     public void perform(Algorithm algorithm) throws Exception {
-        requiredSteps = algorithm.getNecessarySteps();
-        for (int step = 0; step < algorithm.getNecessarySteps(); step++) {
+        int step = 0;
+        while (true) {
+            Parameters.log("Step " + step);
             int maxDistance = 0;
             for (Node node : nodes) {
                 int indexOfCommunicatingNode = algorithm.compute_communication_partner_node(node.getId(), step);
@@ -53,12 +51,16 @@ public class Simulator {
                         communicationNode = communicationNode.getLeft();
                     }
                 }
+                Parameters.debug(node.getId() + " sends to " + indexOfCommunicatingNode);
                 node.addSeenNode(communicationNode.getSeenNodeToStep(step));
             }
             maxDistancePerStep.add(maxDistance);
-        }
-        if (!this.allNodesShared()){
-            throw new Exception("algorithm is not correct");
+            Parameters.log("Distance: " + maxDistance);
+            if (this.allNodesShared()){
+                Parameters.log("All nodes shared");
+                break;
+            }
+            step++;
         }
     }
 
@@ -91,10 +93,12 @@ public class Simulator {
     public int getDistanceBetweenNodes(int a, int b) {
         int rightDist = (b-a+nodes.size())% nodes.size();
         int leftDist = (a-b+nodes.size())% nodes.size();
-        if (rightDist >= leftDist) {
+        if (rightDist <= leftDist) {
             return rightDist;
         } else {
             return -1 * leftDist;
         }
     }
+
+
 }
