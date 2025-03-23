@@ -1,6 +1,9 @@
-import algorithms.Algorithm;
-import algorithms.RecursiveDoubling;
+import Algorithms.*;
 
+import CostModels.Basic;
+import CostModels.Congestion;
+import CostModels.CostFunction;
+import CostModels.Distance;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,17 +16,25 @@ public class MainCollective {
 
     public static void main(String[] args) throws Exception {
         readParameters();
-        ArrayList<Algorithm> algorithms = prepareAlgorithms();
         for (int size: Parameters.networkSizes) {
+            ArrayList<Algorithm> algorithms = prepareAlgorithms();
             System.out.println("Network size: " + (1 << size));
             for (Algorithm a: algorithms) {
-                Simulator s = new Simulator(size);
                 System.out.println(a.getAlgorithmName() + " is being performed");
-                s.perform(a);
-                Parameters.log("------------------------------------");
+                ArrayList<CostFunction> costFunctions = prepareCostFunctions();
+                if (costFunctions.size() == 0) Parameters.log("No Cost Function found");
+                for (CostFunction c: costFunctions) {
+                    Simulator s = new Simulator(size);
+                    System.out.println(c.getFunctionName() + " is applied");
+                    s.perform(a, c);
+                    c.computeCost();
+                    System.out.println("Alpha: " + c.getAlphaCost() + " Beta: " + c.getBetaCost());
+                    Parameters.log("------------------------------------");
 
+                }
             }
         }
+        System.out.println("Simulation completed!");
     }
 
     public static void readParameters() {
@@ -37,7 +48,18 @@ public class MainCollective {
             for (int i = 0; i < networkSizes.length(); i++) {
                 Parameters.networkSizes.add(networkSizes.getInt(i));
             }
-            Parameters.recursiveDoubling = parameters.getBoolean("recursive_doubling");
+
+            JSONObject algorithms = parameters.getJSONObject("algorithms");
+            Parameters.ringAlgorithm = algorithms.getBoolean("ring");
+            Parameters.recursiveDoublingAlgorithm = algorithms.getBoolean("recursive_doubling");
+            Parameters.swingAlgorithm = algorithms.getBoolean("swing");
+            Parameters.splitThreeLastStepsAlgorithm = algorithms.getBoolean("split_last_three_steps");
+
+            JSONObject costFunctions = parameters.getJSONObject("cost_functions");
+            Parameters.basicCostFunction = costFunctions.getBoolean("basic");
+            Parameters.congestionCostFunction = costFunctions.getBoolean("congestion");
+            Parameters.distanceCostFunction = costFunctions.getBoolean("distance");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,7 +67,18 @@ public class MainCollective {
 
     public static ArrayList<Algorithm> prepareAlgorithms() {
         ArrayList<Algorithm> algorithms = new ArrayList<>();
-        if (Parameters.recursiveDoubling)  algorithms.add(new RecursiveDoubling());
+        if (Parameters.ringAlgorithm)  algorithms.add(new Ring());
+        if (Parameters.recursiveDoublingAlgorithm)  algorithms.add(new RecursiveDoubling());
+        if (Parameters.swingAlgorithm)  algorithms.add(new Swing());
+        if (Parameters.splitThreeLastStepsAlgorithm)  algorithms.add(new SplitLastThreeSteps());
         return algorithms;
+    }
+
+    public static ArrayList<CostFunction> prepareCostFunctions() {
+        ArrayList<CostFunction> costFunctions = new ArrayList<>();
+        if (Parameters.basicCostFunction)  costFunctions.add(new Basic());
+        if (Parameters.congestionCostFunction)  costFunctions.add(new Congestion());
+        if (Parameters.distanceCostFunction)  costFunctions.add(new Distance());
+        return costFunctions;
     }
 }

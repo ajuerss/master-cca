@@ -5,7 +5,14 @@ public class Parameters {
     public static boolean debug = false;
     public static ArrayList<Integer> networkSizes = new ArrayList<>();
 
-    public static boolean recursiveDoubling = false;
+    public static boolean ringAlgorithm = false;
+    public static boolean recursiveDoublingAlgorithm = false;
+    public static boolean swingAlgorithm = false;
+    public static boolean splitThreeLastStepsAlgorithm = false;
+
+    public static boolean basicCostFunction = false;
+    public static boolean congestionCostFunction = false;
+    public static boolean distanceCostFunction = false;
 
     public static void log(String s) {
         if (logging) {

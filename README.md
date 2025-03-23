@@ -1,2 +1,2 @@
 # master-cca
-master thesis for collective communication algorithms
+master thesis for collective communication Algorithms

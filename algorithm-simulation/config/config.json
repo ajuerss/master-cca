@@ -1,6 +1,16 @@
 {
-  "logging": true,
-  "recursive_doubling": true,
-  "debug": true,
-  "network_sizes" : [4, 5]
+  "logging": false,
+  "debug": false,
+  "network_sizes" : [6],
+  "algorithms": {
+    "ring": false,
+    "recursive_doubling": false,
+    "swing": true,
+    "split_last_three_steps": true
+  },
+  "cost_functions": {
+    "basic": false,
+    "congestion": false,
+    "distance": true
+  }
 }

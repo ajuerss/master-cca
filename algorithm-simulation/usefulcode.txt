@@ -1,0 +1,10 @@
+        this.betaCost = 0;
+        for (int i = 0; i < bitSizeOfNodesPerStepList.length; i++) {
+            System.out.println("List B " + i + ": " + bitSizeOfNodesPerStepList[i]);
+        }
+        for (int i = 0; i < congestionOfNodesPerStepList.length; i++) {
+            System.out.println("List C " + i + ": " + congestionOfNodesPerStepList[i]);
+        }
+        for (int i = 0; i < distanceOfNodesPerStepList.length; i++) {
+            System.out.println("List D " + i + ": " + distanceOfNodesPerStepList[i]);
+        }
