@@ -16,5 +16,8 @@
     "basic": false,
     "congestion": false,
     "distance": true
+  },
+  "plots": {
+
   }
 }
