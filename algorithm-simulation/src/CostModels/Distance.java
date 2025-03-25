@@ -1,5 +1,7 @@
 package CostModels;
 
+import Simulation.Parameters;
+
 import java.util.ArrayList;
 
 public class Distance implements CostFunction{
@@ -20,18 +22,7 @@ public class Distance implements CostFunction{
     public void computeCost() {
         this.alphaCost = steps + 1;
         this.betaCost = 0;
-        if (bitSizeOfNodesPerStepList[0].size() != congestionOfNodesPerStepList[0].size() || congestionOfNodesPerStepList[0].size() != distanceOfNodesPerStepList[0].size()) {
-            throw new ArithmeticException("Matrices do not align in size");
-        }
-        for (int i = 0; i < bitSizeOfNodesPerStepList.length; i++) {
-            System.out.println("List B " + i + ": " + bitSizeOfNodesPerStepList[i]);
-        }
-        for (int i = 0; i < congestionOfNodesPerStepList.length; i++) {
-            System.out.println("List C " + i + ": " + congestionOfNodesPerStepList[i]);
-        }
-        for (int i = 0; i < distanceOfNodesPerStepList.length; i++) {
-            System.out.println("List D " + i + ": " + distanceOfNodesPerStepList[i]);
-        }
+        Parameters.printMatrices(bitSizeOfNodesPerStepList, congestionOfNodesPerStepList, distanceOfNodesPerStepList);
         for (int i = 0; i < bitSizeOfNodesPerStepList[0].size(); i++) {
             double highestTransmissionCost = 0.0;
             for (int j = 0; j < bitSizeOfNodesPerStepList.length; j++) {
@@ -40,7 +31,7 @@ public class Distance implements CostFunction{
                     highestTransmissionCost = calculatedCost;
                 }
             }
-            System.out.println(highestTransmissionCost);
+            Parameters.printCostPerStep("Highest cost in step " + i + ": " + highestTransmissionCost);
             betaCost += highestTransmissionCost;
         }
     }

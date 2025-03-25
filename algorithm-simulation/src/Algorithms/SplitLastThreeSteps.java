@@ -32,7 +32,11 @@ public class SplitLastThreeSteps implements Algorithm {
         for (int i = 0; i < networkSize; i++) {
             congestionOfNodesPerStepList[i] = new ArrayList<>();
             for (int step = 0; step <= steps; step++) {
-                congestionOfNodesPerStepList[i].add((int) (networkSize/(Math.pow(2, step + 1))));
+                if (step < steps-3) congestionOfNodesPerStepList[i].add((int) (networkSize/(Math.pow(2, step + 1))));
+                if (step == steps-3) congestionOfNodesPerStepList[i].add(4);
+                if (step == steps-2) congestionOfNodesPerStepList[i].add(3);
+                if (step == steps-1) congestionOfNodesPerStepList[i].add(2);
+                if (step == steps) congestionOfNodesPerStepList[i].add(1);
             }
         }
         return congestionOfNodesPerStepList;

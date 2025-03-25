@@ -1,5 +1,7 @@
 package CostModels;
 
+import Simulation.Parameters;
+
 import java.util.ArrayList;
 
 public class Basic implements CostFunction{
@@ -20,6 +22,7 @@ public class Basic implements CostFunction{
     public void computeCost() {
         this.alphaCost = steps + 1;
         this.betaCost = 0;
+        Parameters.printMatrices(bitSizeOfNodesPerStepList, congestionOfNodesPerStepList, distanceOfNodesPerStepList);
         if (bitSizeOfNodesPerStepList[0].size() != congestionOfNodesPerStepList[0].size() || congestionOfNodesPerStepList[0].size() != distanceOfNodesPerStepList[0].size()) {
             throw new ArithmeticException("Matrices do not align in size");
         }
@@ -31,6 +34,7 @@ public class Basic implements CostFunction{
                 }
             }
             betaCost += highestTransmissionCost;
+            Parameters.printCostPerStep("Highest cost in step " + i + ": " + highestTransmissionCost);
         }
     }
 

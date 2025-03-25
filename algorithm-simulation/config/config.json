@@ -1,7 +1,11 @@
 {
   "logging": false,
-  "debug": false,
-  "network_sizes" : [6],
+  "debug": {
+    "general": false,
+    "cost_per_step": false,
+    "matrices": false
+  },
+  "network_sizes" : [5,6,7,8,9,10],
   "algorithms": {
     "ring": false,
     "recursive_doubling": false,

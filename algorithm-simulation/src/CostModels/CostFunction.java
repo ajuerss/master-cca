@@ -3,7 +3,6 @@ package CostModels;
 import java.util.ArrayList;
 
 public interface CostFunction {
-    boolean reduceScatterAllgather = false;
     String getFunctionName();
     void computeCost();
     void setReduceScatterAllgather(boolean reduceScatterAllgather);

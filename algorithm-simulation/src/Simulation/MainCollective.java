@@ -1,3 +1,5 @@
+package Simulation;
+
 import Algorithms.*;
 
 import CostModels.Basic;
@@ -43,7 +45,11 @@ public class MainCollective {
             JSONObject parameters = new JSONObject(file);
 
             Parameters.logging = parameters.getBoolean("logging");
-            Parameters.debug = parameters.getBoolean("debug");
+            JSONObject debug = parameters.getJSONObject("debug");
+            Parameters.debug = debug.getBoolean("general");
+            Parameters.costPerStep = debug.getBoolean("cost_per_step");
+            Parameters.matrices = debug.getBoolean("matrices");
+
             JSONArray networkSizes = parameters.getJSONArray("network_sizes");
             for (int i = 0; i < networkSizes.length(); i++) {
                 Parameters.networkSizes.add(networkSizes.getInt(i));
