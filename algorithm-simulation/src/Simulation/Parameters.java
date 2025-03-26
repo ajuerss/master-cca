@@ -39,15 +39,9 @@ public class Parameters {
 
     public static void printMatrices(ArrayList<Integer>[] bitSizeOfNodesPerStepList, ArrayList<Integer>[] congestionOfNodesPerStepList, ArrayList<Integer>[] distanceOfNodesPerStepList) {
         if (matrices) {
-            for (int i = 0; i < bitSizeOfNodesPerStepList.length; i++) {
-                System.out.println("Bytes " + i + ": " + bitSizeOfNodesPerStepList[i]);
-            }
-            for (int i = 0; i < congestionOfNodesPerStepList.length; i++) {
-                System.out.println("Congestion " + i + ": " + congestionOfNodesPerStepList[i]);
-            }
-            for (int i = 0; i < distanceOfNodesPerStepList.length; i++) {
-                System.out.println("Distance " + i + ": " + distanceOfNodesPerStepList[i]);
-            }
+            System.out.println("Bytes: " + bitSizeOfNodesPerStepList[0]);
+            System.out.println("Congestion : " + congestionOfNodesPerStepList[0]);
+            System.out.println("Distance : " + distanceOfNodesPerStepList[0]);
         }
     }
 }
