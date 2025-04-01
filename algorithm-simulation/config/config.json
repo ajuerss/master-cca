@@ -5,7 +5,7 @@
     "cost_per_step": false,
     "matrices": true
   },
-  "network_sizes" : [5],
+  "network_sizes" : [6],
   "algorithms": {
     "ring": false,
     "recursive_doubling": false,
