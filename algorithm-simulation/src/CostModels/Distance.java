@@ -26,7 +26,7 @@ public class Distance implements CostFunction{
         for (int i = 0; i < bitSizeOfNodesPerStepList[0].size(); i++) {
             double highestTransmissionCost = 0.0;
             for (int j = 0; j < bitSizeOfNodesPerStepList.length; j++) {
-                int calculatedCost = (int) (bitSizeOfNodesPerStepList[j].get(i)*Math.pow(distanceOfNodesPerStepList[j].get(i), 2));
+                int calculatedCost = (int) (bitSizeOfNodesPerStepList[j].get(i)*congestionOfNodesPerStepList[j].get(i)*Math.pow(distanceOfNodesPerStepList[j].get(i), 1));
                 if (calculatedCost > highestTransmissionCost) {
                     highestTransmissionCost = calculatedCost;
                 }

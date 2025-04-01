@@ -5,13 +5,13 @@
     "cost_per_step": true,
     "matrices": true
   },
-  "network_sizes" : [9],
+  "network_sizes" : [11],
   "algorithms": {
     "ring": false,
     "recursive_doubling": false,
     "swing": true,
-    "split_last_two_steps": true,
-    "split_last_three_steps": true,
+    "split_last_two_steps": false,
+    "split_last_three_steps": false,
     "split_last_four_steps": true
   },
   "cost_functions": {
