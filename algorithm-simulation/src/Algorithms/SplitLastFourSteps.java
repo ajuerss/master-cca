@@ -10,6 +10,9 @@ public class SplitLastFourSteps implements Algorithm {
 
     public int computeCommunicationDistance(int nodeId, int step, int networkSize) {
         int necessarySteps = (int) (Math.log(networkSize) / Math.log(2)) + 10;
+        if (networkSize < 32) {
+            return (int) Math.pow(-1, nodeId + step);
+        }
         if (step < necessarySteps-14) {
             int target = (nodeId ^ (1 << step));
             int dRight = (target - nodeId + networkSize) % networkSize;

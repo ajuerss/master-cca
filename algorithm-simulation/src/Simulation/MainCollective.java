@@ -20,7 +20,7 @@ public class MainCollective {
         readParameters();
         for (int size: Parameters.networkSizes) {
             ArrayList<Algorithm> algorithms = prepareAlgorithms();
-            System.out.println("Network size: " + (1 << size));
+            System.out.println("> Network size: " + (1 << size));
             for (Algorithm a: algorithms) {
                 System.out.println(a.getAlgorithmName() + " is being performed");
                 ArrayList<CostFunction> costFunctions = prepareCostFunctions();
