@@ -2,19 +2,21 @@
   "logging": false,
   "debug": {
     "general": false,
-    "cost_per_step": true,
+    "cost_per_step": false,
     "matrices": true
   },
-  "network_sizes" : [8],
+  "network_sizes" : [5],
   "algorithms": {
     "ring": false,
     "recursive_doubling": false,
     "swing": true,
-    "split_last_three_steps": true
+    "split_last_two_steps": false,
+    "split_last_three_steps": true,
+    "split_last_four_steps": true
   },
   "cost_functions": {
     "basic": false,
-    "congestion": true,
+    "congestion": false,
     "distance": true
   },
   "plots": {

@@ -59,7 +59,9 @@ public class MainCollective {
             Parameters.ringAlgorithm = algorithms.getBoolean("ring");
             Parameters.recursiveDoublingAlgorithm = algorithms.getBoolean("recursive_doubling");
             Parameters.swingAlgorithm = algorithms.getBoolean("swing");
-            Parameters.splitThreeLastStepsAlgorithm = algorithms.getBoolean("split_last_three_steps");
+            Parameters.splitLastTwoStepsAlgorithm = algorithms.getBoolean("split_last_two_steps");
+            Parameters.splitLastThreeStepsAlgorithm = algorithms.getBoolean("split_last_three_steps");
+            Parameters.splitLastFourStepsAlgorithm = algorithms.getBoolean("split_last_four_steps");
 
             JSONObject costFunctions = parameters.getJSONObject("cost_functions");
             Parameters.basicCostFunction = costFunctions.getBoolean("basic");
@@ -76,7 +78,9 @@ public class MainCollective {
         if (Parameters.ringAlgorithm)  algorithms.add(new Ring());
         if (Parameters.recursiveDoublingAlgorithm)  algorithms.add(new RecursiveDoubling());
         if (Parameters.swingAlgorithm)  algorithms.add(new Swing());
-        if (Parameters.splitThreeLastStepsAlgorithm)  algorithms.add(new SplitLastThreeSteps());
+        if (Parameters.splitLastTwoStepsAlgorithm)  algorithms.add(new SplitLastTwoSteps());
+        if (Parameters.splitLastThreeStepsAlgorithm)  algorithms.add(new SplitLastThreeSteps());
+        if (Parameters.splitLastFourStepsAlgorithm)  algorithms.add(new SplitLastFourSteps());
         return algorithms;
     }
 

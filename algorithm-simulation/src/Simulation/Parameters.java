@@ -13,7 +13,9 @@ public class Parameters {
     public static boolean ringAlgorithm = false;
     public static boolean recursiveDoublingAlgorithm = false;
     public static boolean swingAlgorithm = false;
-    public static boolean splitThreeLastStepsAlgorithm = false;
+    public static boolean splitLastTwoStepsAlgorithm = false;
+    public static boolean splitLastThreeStepsAlgorithm = false;
+    public static boolean splitLastFourStepsAlgorithm = false;
 
     public static boolean basicCostFunction = false;
     public static boolean congestionCostFunction = false;
