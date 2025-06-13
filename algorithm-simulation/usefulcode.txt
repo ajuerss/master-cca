@@ -8,3 +8,5 @@
         for (int i = 0; i < distanceOfNodesPerStepList.length; i++) {
             System.out.println("List D " + i + ": " + distanceOfNodesPerStepList[i]);
         }
+
+

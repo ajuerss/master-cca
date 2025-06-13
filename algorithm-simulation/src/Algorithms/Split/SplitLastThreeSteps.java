@@ -1,10 +1,11 @@
-package Algorithms;
+package Algorithms.Split;
 
-import java.util.ArrayList;
+import Algorithms.Algorithm;
 
 public class SplitLastThreeSteps implements Algorithm {
 
     private final boolean reduceScatterAllgather = true;
+    private final boolean twoPort = false;
 
     public SplitLastThreeSteps() {}
 
@@ -29,25 +30,20 @@ public class SplitLastThreeSteps implements Algorithm {
         return positionInCluster < (clusterSize / 2) ? distance : -distance;
     }
 
-    public ArrayList<Integer>[] getTransmittedBitSizeMatrixForStep(int steps, int networkSize) {
-        ArrayList<Integer>[] congestionOfNodesPerStepList = new ArrayList[networkSize];
-        for (int i = 0; i < networkSize; i++) {
-            congestionOfNodesPerStepList[i] = new ArrayList<>();
-            for (int step = 0; step <= steps; step++) {
-                if (step < steps-6){
-                    congestionOfNodesPerStepList[i].add((int) (networkSize/(Math.pow(2, step + 1))));
-                } else if (steps - step <= 1){
-                    congestionOfNodesPerStepList[i].add(steps-step + 1);
-                } else {
-                    congestionOfNodesPerStepList[i].add(steps-step);
-                }
-            }
-        }
-        return congestionOfNodesPerStepList;
+    public double[] getTransmittedMessageSizePerStep(int steps, int networkSize, int messageOverhead) {
+        double[] messageSizePerStep = new double[steps];
+        return messageSizePerStep;
+    }
+
+    public int calculateRequiredSteps (int networkSize) {
+        return (int)(Math.log(networkSize) / Math.log(2));
     }
 
     public boolean getReduceScatterAllgather() {
         return this.reduceScatterAllgather;
+    }
+    public boolean getTwoPort() {
+        return this.twoPort;
     }
 
     public String getAlgorithmName() {

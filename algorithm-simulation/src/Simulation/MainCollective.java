@@ -2,10 +2,19 @@ package Simulation;
 
 import Algorithms.*;
 
-import CostModels.Basic;
-import CostModels.Congestion;
-import CostModels.CostFunction;
-import CostModels.Distance;
+import Algorithms.RecursiveDoubling.RecursiveDoublingBandwidth;
+import Algorithms.RecursiveDoubling.RecursiveDoublingLatency;
+import Algorithms.Ring.Ring;
+import Algorithms.Ring.RingTwoPort;
+import Algorithms.Split.SplitLastFourSteps;
+import Algorithms.Split.SplitLastThreeSteps;
+import Algorithms.Split.SplitLastTwoSteps;
+import Algorithms.Swing.SwingBandwidth;
+import Algorithms.Swing.SwingBandwidthTwoPort;
+import Algorithms.Swing.SwingLatency;
+import Algorithms.Swing.SwingLatencyTwoPort;
+import Algorithms.Trivance.TrivanceBandwidth;
+import Algorithms.Trivance.TrivanceLatency;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,21 +29,28 @@ public class MainCollective {
         readParameters();
         for (int size: Parameters.networkSizes) {
             ArrayList<Algorithm> algorithms = prepareAlgorithms();
-            System.out.println("> Network size: " + (1 << size));
-            for (Algorithm a: algorithms) {
-                System.out.println(a.getAlgorithmName() + " is being performed");
-                ArrayList<CostFunction> costFunctions = prepareCostFunctions();
-                if (costFunctions.size() == 0) Parameters.log("No Cost Function found");
-                for (CostFunction c: costFunctions) {
-                    Simulator s = new Simulator(size);
-                    System.out.println(c.getFunctionName() + " is applied");
-                    s.perform(a, c);
-                    c.computeCost();
-                    System.out.println("Alpha: " + c.getAlphaCost() + " Beta: " + c.getBetaCost());
-                    Parameters.log("------------------------------------");
+            System.out.println("> Network size: " + (size));
+            for (int messageOverheads: Parameters.messageOverheads) {
+                //System.out.println(">> Overhead: " + messageOverheads);
+                for (Algorithm a: algorithms) {
+                    if ((size % 2 == 0 && (a.getAlgorithmName() == "TrivanceBandwidth" || a.getAlgorithmName() == "TrivanceLatency")) || (size % 3 == 0 && !(a.getAlgorithmName() == "TrivanceBandwidth" || a.getAlgorithmName() == "TrivanceLatency"))) {
+                        continue;
+                    }
+                    System.out.println(">>>>> " + a.getAlgorithmName());
+                    ArrayList<CostFunction> costFunctions = prepareCostFunctions(messageOverheads);
+                    if (costFunctions.size() == 0) Parameters.log("No Cost Function found");
+                    for (CostFunction c: costFunctions) {
+                        Simulator s = new Simulator(size);
+                        Parameters.log(c.getFunctionName() + " is applied");
+                        s.perform(a, c);
+                        c.computeCost();
+                        System.out.println("Alpha: " + c.getAlphaCost() + " Beta: " + c.getBetaCost());
+                        Parameters.log("------------------------------------");
 
+                    }
                 }
             }
+            System.out.println("------------------------------------------------------------------------------------------------------------");
         }
         System.out.println("Simulation completed!");
     }
@@ -54,19 +70,29 @@ public class MainCollective {
             for (int i = 0; i < networkSizes.length(); i++) {
                 Parameters.networkSizes.add(networkSizes.getInt(i));
             }
+            JSONArray messageOverheads = parameters.getJSONArray("message_overheads");
+            for (int i = 0; i < messageOverheads.length(); i++) {
+                Parameters.messageOverheads.add(messageOverheads.getInt(i));
+            }
 
             JSONObject algorithms = parameters.getJSONObject("algorithms");
             Parameters.ringAlgorithm = algorithms.getBoolean("ring");
-            Parameters.recursiveDoublingAlgorithm = algorithms.getBoolean("recursive_doubling");
-            Parameters.swingAlgorithm = algorithms.getBoolean("swing");
+            Parameters.ringTwoPortAlgorithm = algorithms.getBoolean("ring_twoPort");
+            Parameters.recursiveDoublingLatencyAlgorithm = algorithms.getBoolean("recursiveDoubling_latency");
+            Parameters.recursiveDoublingBandwidthAlgorithm = algorithms.getBoolean("recursiveDoubling_bandwidth");
             Parameters.splitLastTwoStepsAlgorithm = algorithms.getBoolean("split_last_two_steps");
             Parameters.splitLastThreeStepsAlgorithm = algorithms.getBoolean("split_last_three_steps");
             Parameters.splitLastFourStepsAlgorithm = algorithms.getBoolean("split_last_four_steps");
+            Parameters.swingLatencyAlgorithm = algorithms.getBoolean("swing_latency");
+            Parameters.swingBandwidthAlgorithm = algorithms.getBoolean("swing_bandwidth");
+            Parameters.swingLatencyTwoPortAlgorithm = algorithms.getBoolean("swing_latency_twoPort");
+            Parameters.swingBandwidthTwoPortAlgorithm = algorithms.getBoolean("swing_bandwidth_twoPort");
+            Parameters.trivanceLatencyAlgorithm = algorithms.getBoolean("trivance_latency");
+            Parameters.trivanceBandwidthAlgorithm = algorithms.getBoolean("trivance_bandwidth");
 
             JSONObject costFunctions = parameters.getJSONObject("cost_functions");
             Parameters.basicCostFunction = costFunctions.getBoolean("basic");
             Parameters.congestionCostFunction = costFunctions.getBoolean("congestion");
-            Parameters.distanceCostFunction = costFunctions.getBoolean("distance");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,19 +102,26 @@ public class MainCollective {
     public static ArrayList<Algorithm> prepareAlgorithms() {
         ArrayList<Algorithm> algorithms = new ArrayList<>();
         if (Parameters.ringAlgorithm)  algorithms.add(new Ring());
-        if (Parameters.recursiveDoublingAlgorithm)  algorithms.add(new RecursiveDoubling());
-        if (Parameters.swingAlgorithm)  algorithms.add(new Swing());
+        if (Parameters.ringTwoPortAlgorithm)  algorithms.add(new RingTwoPort());
+        if (Parameters.recursiveDoublingLatencyAlgorithm)  algorithms.add(new RecursiveDoublingLatency());
+        if (Parameters.recursiveDoublingBandwidthAlgorithm)  algorithms.add(new RecursiveDoublingBandwidth());
         if (Parameters.splitLastTwoStepsAlgorithm)  algorithms.add(new SplitLastTwoSteps());
         if (Parameters.splitLastThreeStepsAlgorithm)  algorithms.add(new SplitLastThreeSteps());
         if (Parameters.splitLastFourStepsAlgorithm)  algorithms.add(new SplitLastFourSteps());
+        if (Parameters.swingLatencyAlgorithm)  algorithms.add(new SwingLatency());
+        if (Parameters.swingBandwidthAlgorithm)  algorithms.add(new SwingBandwidth());
+        if (Parameters.swingLatencyTwoPortAlgorithm)  algorithms.add(new SwingLatencyTwoPort());
+        if (Parameters.swingBandwidthTwoPortAlgorithm)  algorithms.add(new SwingBandwidthTwoPort());
+        if (Parameters.trivanceLatencyAlgorithm)  algorithms.add(new TrivanceLatency());
+        if (Parameters.trivanceBandwidthAlgorithm)  algorithms.add(new TrivanceBandwidth());
+
         return algorithms;
     }
 
-    public static ArrayList<CostFunction> prepareCostFunctions() {
+    public static ArrayList<CostFunction> prepareCostFunctions(int messageOverheads) {
         ArrayList<CostFunction> costFunctions = new ArrayList<>();
-        if (Parameters.basicCostFunction)  costFunctions.add(new Basic());
-        if (Parameters.congestionCostFunction)  costFunctions.add(new Congestion());
-        if (Parameters.distanceCostFunction)  costFunctions.add(new Distance());
+        if (Parameters.basicCostFunction)  costFunctions.add(new CostFunction(messageOverheads, false));
+        if (Parameters.congestionCostFunction)  costFunctions.add(new CostFunction(messageOverheads, true));
         return costFunctions;
     }
 }

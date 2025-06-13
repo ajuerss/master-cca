@@ -7,6 +7,7 @@ public class Node {
     private Node left;
     private Node right;
     private ArrayList<int[]> seenNodes = new ArrayList<>();
+    public boolean[][] blocks;
 
     public Node(int id) {
         this.id = id;
@@ -51,6 +52,16 @@ public class Node {
         }
         seen.add(this.id);
         return seen.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public void addBlocks(int[] reachedNodes, boolean[][] blocksFromSenderNode) {
+        for (int nodes = 0; nodes < reachedNodes.length; nodes++) {
+            for ( int i = 0; i < blocksFromSenderNode.length; i++) {
+                if (blocksFromSenderNode[i][reachedNodes[nodes]]) {
+                    this.blocks[i][reachedNodes[nodes]] = true;
+                }
+            }
+        }
     }
 
 }
