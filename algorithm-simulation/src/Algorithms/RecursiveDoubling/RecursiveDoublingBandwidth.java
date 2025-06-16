@@ -1,11 +1,13 @@
 package Algorithms.RecursiveDoubling;
 
 import Algorithms.Algorithm;
+import Algorithms.AlgorithmType;
 
 public class RecursiveDoublingBandwidth implements Algorithm {
 
     private final boolean reduceScatterAllgather = true;
     private final boolean twoPort = false;
+    private AlgorithmType type = AlgorithmType.RECURSIVE_DOUBLING_BANDWIDTH;
 
     public RecursiveDoublingBandwidth() {}
 
@@ -34,8 +36,7 @@ public class RecursiveDoublingBandwidth implements Algorithm {
     public boolean getTwoPort() {
         return this.twoPort;
     }
-
-    public String getAlgorithmName() {
-        return "Recursive Doubling";
+    public AlgorithmType getAlgorithmType() {
+        return this.type;
     }
 }

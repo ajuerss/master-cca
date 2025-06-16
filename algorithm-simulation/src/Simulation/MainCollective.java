@@ -18,25 +18,27 @@ import Algorithms.Trivance.TrivanceLatency;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.*;
 
 public class MainCollective {
 
     public static void main(String[] args) throws Exception {
         readParameters();
+        List<Map.Entry<Integer, CostFunction>> results = new ArrayList<>();
         for (int size: Parameters.networkSizes) {
             ArrayList<Algorithm> algorithms = prepareAlgorithms();
             System.out.println("> Network size: " + (size));
             for (int messageOverheads: Parameters.messageOverheads) {
                 //System.out.println(">> Overhead: " + messageOverheads);
                 for (Algorithm a: algorithms) {
-                    if ((size % 2 == 0 && (a.getAlgorithmName() == "TrivanceBandwidth" || a.getAlgorithmName() == "TrivanceLatency")) || (size % 3 == 0 && !(a.getAlgorithmName() == "TrivanceBandwidth" || a.getAlgorithmName() == "TrivanceLatency"))) {
+                    if ((size % 2 == 0 && (a.getAlgorithmType() == AlgorithmType.TRIVANCE_BANDWIDTH || a.getAlgorithmType() == AlgorithmType.TRIVANCE_LATENCY)) || (size % 3 == 0 && !(a.getAlgorithmType() == AlgorithmType.TRIVANCE_BANDWIDTH || a.getAlgorithmType() == AlgorithmType.TRIVANCE_LATENCY))) {
                         continue;
                     }
-                    System.out.println(">>>>> " + a.getAlgorithmName());
+                    System.out.println(">>>>> " + a.getAlgorithmType());
                     ArrayList<CostFunction> costFunctions = prepareCostFunctions(messageOverheads);
                     if (costFunctions.size() == 0) Parameters.log("No Cost Function found");
                     for (CostFunction c: costFunctions) {
@@ -44,6 +46,7 @@ public class MainCollective {
                         Parameters.log(c.getFunctionName() + " is applied");
                         s.perform(a, c);
                         c.computeCost();
+                        results.add(new AbstractMap.SimpleEntry<>(size, c));
                         System.out.println("Alpha: " + c.getAlphaCost() + " Beta: " + c.getBetaCost());
                         Parameters.log("------------------------------------");
 
@@ -52,7 +55,9 @@ public class MainCollective {
             }
             System.out.println("------------------------------------------------------------------------------------------------------------");
         }
+        writeCostsToJSON(results);
         System.out.println("Simulation completed!");
+
     }
 
     public static void readParameters() {
@@ -123,5 +128,61 @@ public class MainCollective {
         if (Parameters.basicCostFunction)  costFunctions.add(new CostFunction(messageOverheads, false));
         if (Parameters.congestionCostFunction)  costFunctions.add(new CostFunction(messageOverheads, true));
         return costFunctions;
+    }
+
+    public static void writeCostsToJSON(List<Map.Entry<Integer, CostFunction>> results) throws IOException {
+        Map<AlgorithmType, Map<Integer, List<CostFunction>>> grouped = new HashMap<>();
+
+        for (Map.Entry<Integer, CostFunction> entry : results) {
+            int size = entry.getKey();
+            CostFunction cf = entry.getValue();
+            AlgorithmType alg = cf.getAlgorithmType();
+
+            grouped
+                    .computeIfAbsent(alg, k -> new TreeMap<>())
+                    .computeIfAbsent(size, k -> new ArrayList<>())
+                    .add(cf);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("[\n");
+
+        int algCount = 0;
+        for (Map.Entry<AlgorithmType, Map<Integer, List<CostFunction>>> algEntry : grouped.entrySet()) {
+            AlgorithmType alg = algEntry.getKey();
+            Map<Integer, List<CostFunction>> sizeMap = algEntry.getValue();
+
+            List<Integer> sortedSizes = new ArrayList<>(sizeMap.keySet());
+            Collections.sort(sortedSizes);
+
+            List<Integer> finalSizes = new ArrayList<>();
+            List<Double> latencyList = new ArrayList<>();
+            List<Double> bandwidthList = new ArrayList<>();
+
+            for (Integer size : sortedSizes) {
+                List<CostFunction> cfs = sizeMap.get(size);
+                for (CostFunction cf : cfs) {
+                    finalSizes.add(size);
+                    latencyList.add(cf.getAlphaCost());
+                    bandwidthList.add(Math.round((cf.getBetaCost() / size) * 100.0) / 100.0);
+                }
+            }
+
+            sb.append("  {\n");
+            sb.append("    \"name\": \"").append(alg.toString()).append("\",\n");
+            sb.append("    \"network_sizes\": ").append(finalSizes.toString()).append(",\n");
+            sb.append("    \"cost_latency\": ").append(latencyList.toString()).append(",\n");
+            sb.append("    \"cost_bandwidth\": ").append(bandwidthList.toString()).append("\n");
+            sb.append("  }");
+
+            if (++algCount < grouped.size()) sb.append(",");
+            sb.append("\n");
+        }
+
+        sb.append("]\n");
+
+        try (FileWriter fw = new FileWriter("./algorithm-simulation/results/results.json")) {
+            fw.write(sb.toString());
+        }
     }
 }

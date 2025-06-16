@@ -1,11 +1,13 @@
 package Algorithms.Swing;
 
 import Algorithms.Algorithm;
+import Algorithms.AlgorithmType;
 
 public class SwingBandwidth implements Algorithm {
 
     private final boolean reduceScatterAllgather = true;
     private final boolean twoPort = false;
+    private AlgorithmType type = AlgorithmType.SWING_BANDWIDTH;
 
     public SwingBandwidth() {}
 
@@ -32,8 +34,7 @@ public class SwingBandwidth implements Algorithm {
     public boolean getTwoPort() {
         return this.twoPort;
     }
-    
-    public String getAlgorithmName() {
-        return "SwingBandwidth";
+    public AlgorithmType getAlgorithmType() {
+        return this.type;
     }
 }

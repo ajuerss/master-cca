@@ -1,11 +1,13 @@
 package Algorithms.Split;
 
 import Algorithms.Algorithm;
+import Algorithms.AlgorithmType;
 
 public class SplitLastTwoSteps implements Algorithm {
 
     private final boolean reduceScatterAllgather = true;
     private final boolean twoPort = false;
+    private final AlgorithmType type = AlgorithmType.SPLIT;
 
     public SplitLastTwoSteps() {}
 
@@ -45,8 +47,7 @@ public class SplitLastTwoSteps implements Algorithm {
     public boolean getTwoPort() {
         return this.twoPort;
     }
-
-    public String getAlgorithmName() {
-        return "Split Last Two Steps";
+    public AlgorithmType getAlgorithmType() {
+        return this.type;
     }
 }

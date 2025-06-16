@@ -1,11 +1,13 @@
 package Algorithms.Trivance;
 
 import Algorithms.Algorithm;
+import Algorithms.AlgorithmType;
 
 public class TrivanceLatency implements Algorithm {
 
     private final boolean reduceScatterAllgather = false;
     private final boolean twoPort = true;
+    private AlgorithmType type = AlgorithmType.TRIVANCE_LATENCY;
 
     public TrivanceLatency() {}
 
@@ -31,8 +33,8 @@ public class TrivanceLatency implements Algorithm {
     public boolean getTwoPort() {
         return this.twoPort;
     }
-    
-    public String getAlgorithmName() {
-        return "TrivanceLatency";
+
+    public AlgorithmType getAlgorithmType() {
+        return this.type;
     }
 }

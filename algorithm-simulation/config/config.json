@@ -2,25 +2,25 @@
   "logging": false,
   "debug": {
     "general": false,
-    "cost_per_step": false,
-    "matrices": false
+    "cost_per_step": true,
+    "matrices": true
   },
-  "network_sizes" : [243, 256],
+  "network_sizes" : [256,243],
   "message_overheads": [0],
   "algorithms": {
     "ring": false,
-    "ring_twoPort": false,
+    "ring_twoPort": true,
     "recursiveDoubling_latency": false,
     "recursiveDoubling_bandwidth": false,
     "split_last_two_steps": false,
     "split_last_three_steps": false,
     "split_last_four_steps": false,
-    "swing_latency": false,
+    "swing_latency": true,
     "swing_bandwidth": false,
-    "swing_latency_twoPort": false,
-    "swing_bandwidth_twoPort": true,
-    "trivance_latency": false,
-    "trivance_bandwidth": true
+    "swing_latency_twoPort": true,
+    "swing_bandwidth_twoPort": false,
+    "trivance_latency": true,
+    "trivance_bandwidth": false
   },
   "cost_functions": {
     "basic": false,

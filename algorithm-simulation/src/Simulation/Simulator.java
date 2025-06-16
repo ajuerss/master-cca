@@ -1,7 +1,7 @@
 package Simulation;
 
 import Algorithms.Algorithm;
-import Algorithms.Trivance.TrivanceBandwidth;
+import Algorithms.AlgorithmType;
 
 import java.util.*;
 
@@ -31,7 +31,8 @@ public class Simulator {
     }
 
     public void perform(Algorithm algorithm, CostFunction costFunction) throws Exception {
-        if (algorithm.getAlgorithmName() == "TrivanceBandwidth") {
+        costFunction.setAlgorithmType(algorithm.getAlgorithmType());
+        if (algorithm.getAlgorithmType() == AlgorithmType.TRIVANCE_BANDWIDTH) {
             for (Node node : nodes) {
                 node.blocks = new boolean[nodes.size()][nodes.size()];
                 Arrays.fill(node.blocks[node.getId()], true);
@@ -60,7 +61,7 @@ public class Simulator {
                         numberOfUsagesPerLink.put(communicationNode.getId() + "-" + communicationNode.getRight().getId(), numberOfUsagesPerLink.getOrDefault(communicationNode.getId() + "-" + communicationNode.getRight().getId(), 0) + 1);
                         communicationNode = communicationNode.getRight();
                     }
-                    if (algorithm.getAlgorithmName() == "TrivanceBandwidth") {
+                    if (algorithm.getAlgorithmType() == AlgorithmType.TRIVANCE_BANDWIDTH) {
                         int[] reachedNodes = this.getReachedNodes(communicationNode.getId(), step, nodes.size());
                         communicationNode.addBlocks(reachedNodes, node.blocks);
                     }
@@ -73,7 +74,7 @@ public class Simulator {
                         numberOfUsagesPerLink.put(communicationNode.getId() + "-" + communicationNode.getLeft().getId(), numberOfUsagesPerLink.getOrDefault(communicationNode.getId() + "-" + communicationNode.getLeft().getId(), 0) + 1);
                         communicationNode = communicationNode.getLeft();
                     }
-                    if (algorithm.getAlgorithmName() == "TrivanceBandwidth") {
+                    if (algorithm.getAlgorithmType() == AlgorithmType.TRIVANCE_BANDWIDTH) {
                         int[] reachedNodes = this.getReachedNodes(communicationNode.getId(), step, nodes.size());
                         communicationNode.addBlocks(reachedNodes, node.blocks);
                     }
@@ -112,7 +113,7 @@ public class Simulator {
                 congestionPerStep[step] = maxCongestion;
             }
         }
-        if (algorithm.getAlgorithmName() == "TrivanceBandwidth") {
+        if (algorithm.getAlgorithmType() == AlgorithmType.TRIVANCE_BANDWIDTH) {
             if(!this.allBlocksReceived()) {
                 throw new Exception("For the TrivanceBandwidth algorithm, not every node has received all blocks necessary for allreduce");
             }

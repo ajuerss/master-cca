@@ -1,11 +1,13 @@
 package Algorithms.Swing;
 
 import Algorithms.Algorithm;
+import Algorithms.AlgorithmType;
 
 public class SwingLatency implements Algorithm {
 
     private final boolean reduceScatterAllgather = false;
     private final boolean twoPort = false;
+    private AlgorithmType type = AlgorithmType.SWING_LATENCY;
 
     public SwingLatency() {}
 
@@ -32,8 +34,7 @@ public class SwingLatency implements Algorithm {
     public boolean getTwoPort() {
         return this.twoPort;
     }
-
-    public String getAlgorithmName() {
-        return "SwingLatency";
+    public AlgorithmType getAlgorithmType() {
+        return this.type;
     }
 }

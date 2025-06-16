@@ -1,9 +1,11 @@
 package Simulation;
 
 
+import Algorithms.AlgorithmType;
+
 public class CostFunction {
-    private int alphaCost;
-    private int betaCost;
+    private double alphaCost;
+    private double betaCost;
     boolean reduceScatterAllgather = false;
 
     private int messageOverhead;
@@ -13,7 +15,9 @@ public class CostFunction {
     private int[] distanceOfNodesPerStepList;
     private int steps;
 
-    private boolean includeCongestion;
+    private AlgorithmType alg;
+
+    private final boolean includeCongestion;
 
     public CostFunction(int messageOverhead, boolean includeCongestion) {
         this.messageOverhead = messageOverhead;
@@ -50,7 +54,9 @@ public class CostFunction {
     public void setTransferedBitSizePerStep(double[] matrix) {
         this.bitSizeOfNodesPerStepList = matrix;
     }
-
+    public void setAlgorithmType(AlgorithmType alg) {
+        this.alg = alg;
+    }
     public void setCongestionPerStep(int[] matrix) {
         this.congestionOfNodesPerStepList = matrix;
     }
@@ -67,14 +73,14 @@ public class CostFunction {
         return steps;
     }
 
-    public int getAlphaCost() {
+    public double getAlphaCost() {
         if (this.reduceScatterAllgather) {
             return 2*this.alphaCost;
         }
         return this.alphaCost;
     }
 
-    public int getBetaCost() {
+    public double getBetaCost() {
         if (this.reduceScatterAllgather) {
             return 2*this.betaCost;
         }
@@ -84,4 +90,9 @@ public class CostFunction {
     public int getMessageOverhead() {
         return this.messageOverhead;
     }
+
+    public AlgorithmType getAlgorithmType() {
+        return this.alg;
+    }
+
 }

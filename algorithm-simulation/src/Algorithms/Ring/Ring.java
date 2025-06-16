@@ -1,11 +1,13 @@
 package Algorithms.Ring;
 
 import Algorithms.Algorithm;
+import Algorithms.AlgorithmType;
 
 public class Ring implements Algorithm {
 
-    private final boolean reduceScatterAllgather = true;
+    private final boolean reduceScatterAllgather = false;
     private final boolean twoPort = false;
+    private AlgorithmType type = AlgorithmType.RING;
 
     public Ring() {}
 
@@ -31,8 +33,7 @@ public class Ring implements Algorithm {
     public boolean getTwoPort() {
         return this.twoPort;
     }
-
-    public String getAlgorithmName() {
-        return "Ring";
+    public AlgorithmType getAlgorithmType() {
+        return this.type;
     }
 }
