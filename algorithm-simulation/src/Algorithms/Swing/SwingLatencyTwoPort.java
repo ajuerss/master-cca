@@ -6,7 +6,7 @@ import Algorithms.AlgorithmType;
 public class SwingLatencyTwoPort implements Algorithm {
 
     private final boolean reduceScatterAllgather = false;
-    private final boolean twoPort = true;
+    private final boolean twoPort = false;
     private AlgorithmType type = AlgorithmType.SWING_LATENCY_TWO_PORT;
 
     public SwingLatencyTwoPort() {}

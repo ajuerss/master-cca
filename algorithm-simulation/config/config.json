@@ -5,22 +5,22 @@
     "cost_per_step": true,
     "matrices": true
   },
-  "network_sizes" : [256,243],
+  "network_sizes" : [2,4,8,16,32,64,128,256,3,9,27,81,243],
   "message_overheads": [0],
   "algorithms": {
     "ring": false,
     "ring_twoPort": true,
-    "recursiveDoubling_latency": false,
-    "recursiveDoubling_bandwidth": false,
+    "recursiveDoubling_latency": true,
+    "recursiveDoubling_bandwidth": true,
     "split_last_two_steps": false,
     "split_last_three_steps": false,
     "split_last_four_steps": false,
     "swing_latency": true,
-    "swing_bandwidth": false,
+    "swing_bandwidth": true,
     "swing_latency_twoPort": true,
-    "swing_bandwidth_twoPort": false,
+    "swing_bandwidth_twoPort": true,
     "trivance_latency": true,
-    "trivance_bandwidth": false
+    "trivance_bandwidth": true
   },
   "cost_functions": {
     "basic": false,

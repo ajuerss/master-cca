@@ -1,0 +1,26 @@
+[
+  {
+    "name": "TRIVANCE_BANDWIDTH",
+    "network_sizes": [9],
+    "cost_latency": [4.0],
+    "cost_bandwidth": [1.33]
+  },
+  {
+    "name": "RECURSIVE_DOUBLING_BANDWIDTH",
+    "network_sizes": [8],
+    "cost_latency": [6.0],
+    "cost_bandwidth": [3.0]
+  },
+  {
+    "name": "SWING_BANDWIDTH_TWO_PORT",
+    "network_sizes": [8],
+    "cost_latency": [6.0],
+    "cost_bandwidth": [1.13]
+  },
+  {
+    "name": "SWING_BANDWIDTH",
+    "network_sizes": [8],
+    "cost_latency": [6.0],
+    "cost_bandwidth": [2.0]
+  }
+]

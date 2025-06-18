@@ -1,0 +1,56 @@
+[
+  {
+    "name": "RING_TWO_PORT",
+    "network_sizes": [256],
+    "cost_latency": [256.0],
+    "cost_bandwidth": [1.0]
+  },
+  {
+    "name": "TRIVANCE_LATENCY",
+    "network_sizes": [243],
+    "cost_latency": [5.0],
+    "cost_bandwidth": [121.0]
+  },
+  {
+    "name": "TRIVANCE_BANDWIDTH",
+    "network_sizes": [243],
+    "cost_latency": [10.0],
+    "cost_bandwidth": [3.33]
+  },
+  {
+    "name": "RECURSIVE_DOUBLING_LATENCY",
+    "network_sizes": [256],
+    "cost_latency": [8.0],
+    "cost_bandwidth": [255.0]
+  },
+  {
+    "name": "RECURSIVE_DOUBLING_BANDWIDTH",
+    "network_sizes": [256],
+    "cost_latency": [16.0],
+    "cost_bandwidth": [8.0]
+  },
+  {
+    "name": "SWING_BANDWIDTH_TWO_PORT",
+    "network_sizes": [256],
+    "cost_latency": [16.0],
+    "cost_bandwidth": [2.78]
+  },
+  {
+    "name": "SWING_LATENCY",
+    "network_sizes": [256],
+    "cost_latency": [8.0],
+    "cost_bandwidth": [89.0]
+  },
+  {
+    "name": "SWING_LATENCY_TWO_PORT",
+    "network_sizes": [256],
+    "cost_latency": [8.0],
+    "cost_bandwidth": [89.0]
+  },
+  {
+    "name": "SWING_BANDWIDTH",
+    "network_sizes": [256],
+    "cost_latency": [16.0],
+    "cost_bandwidth": [3.77]
+  }
+]
