@@ -1,20 +1,36 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import json
 
-# Message size: 2 MB
-message_size_bytes = 512 * 1024  # 2 MB in bytes
+# Message size: 512 KB
+message_size_bytes = 2048 * 1024
 
-# Algorithm parameters
-algorithms = {
-    "TRIVANCE_BANDWIDTH": {"latency": 10.0, "bandwidth": 3.33},
-    "SWING_BANDWIDTH_TWO_PORT": {"latency": 16.0, "bandwidth": 2.78}
+# Load data
+with open("../../results/results-heat-bucket-8-9.json", "r") as f:
+    raw_data = json.load(f)
+
+# Ensure exactly two algorithms are present
+if len(raw_data) != 2:
+    raise ValueError("Input must contain exactly two algorithm entries.")
+
+# Extract algorithm names and parameters
+names = [entry["name"] for entry in raw_data]
+params = {
+    names[0]: {
+        "latency": raw_data[0]["cost_latency"][0],
+        "bandwidth": raw_data[0]["cost_bandwidth"][0]
+    },
+    names[1]: {
+        "latency": raw_data[1]["cost_latency"][0],
+        "bandwidth": raw_data[1]["cost_bandwidth"][0]
+    }
 }
 
-# Alpha: latency penalty from 100ns to 1000ns
-alpha_vals = np.linspace(100e-9, 1000e-9, 300)
+# Alpha: 100ns to 10000ns
+alpha_vals = np.linspace(100e-9, 10000e-9, 300)
 
-# Beta: bandwidth from 50 GB/s to 500 GB/s
-beta_vals = np.linspace(50e9, 500e9, 300)
+# Beta: 100 Gb/s to 3200 Gb/s
+beta_vals = np.linspace(100e9, 3200e9, 300)
 
 # Create meshgrid
 A, B = np.meshgrid(alpha_vals, beta_vals)
@@ -23,11 +39,11 @@ A, B = np.meshgrid(alpha_vals, beta_vals)
 def compute_cost_matrix(latency, bandwidth):
     return A * latency + (message_size_bytes * bandwidth / B)
 
-cost_trivance = compute_cost_matrix(**algorithms["TRIVANCE_BANDWIDTH"])
-cost_swing = compute_cost_matrix(**algorithms["SWING_BANDWIDTH_TWO_PORT"])
+cost_a = compute_cost_matrix(**params[names[0]])
+cost_b = compute_cost_matrix(**params[names[1]])
 
-# Compute percent difference relative to Swing cost
-cost_diff_percent = 100 * (cost_trivance - cost_swing) / cost_swing
+# Percent difference relative to second algorithm
+cost_diff_percent = 100 * (cost_a - cost_b) / cost_b
 
 # Plotting
 plt.figure(figsize=(10, 6))
@@ -43,12 +59,12 @@ im = plt.imshow(
     ],
     aspect='auto',
     origin='lower',
-    vmin=-np.max(np.abs(cost_diff_percent)),  # Symmetric color scale
+    vmin=-np.max(np.abs(cost_diff_percent)),
     vmax=np.max(np.abs(cost_diff_percent))
 )
 
 plt.colorbar(im, label="Cost Difference (%)")
-plt.xlabel("Alpha Cost in (ns)")
-plt.ylabel("Beta Cost in (GB/s)")
+plt.xlabel("Alpha (ns)")
+plt.ylabel("Beta (Gb/s)")
 plt.tight_layout()
-plt.savefig("../../plots/new/heat.png")
+plt.savefig("../../plots/new/heat-bucket-2MB-l.pdf")

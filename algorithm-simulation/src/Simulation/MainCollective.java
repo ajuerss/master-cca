@@ -3,6 +3,7 @@ package Simulation;
 import Algorithms.*;
 
 import Algorithms.RecursiveDoubling.RecursiveDoublingBandwidth;
+import Algorithms.RecursiveDoubling.RecursiveDoublingBandwidthTwoPort;
 import Algorithms.RecursiveDoubling.RecursiveDoublingLatency;
 import Algorithms.Ring.Ring;
 import Algorithms.Ring.RingTwoPort;
@@ -35,7 +36,7 @@ public class MainCollective {
             for (int messageOverheads: Parameters.messageOverheads) {
                 //System.out.println(">> Overhead: " + messageOverheads);
                 for (Algorithm a: algorithms) {
-                    if ((size % 2 == 0 && (a.getAlgorithmType() == AlgorithmType.TRIVANCE_BANDWIDTH || a.getAlgorithmType() == AlgorithmType.TRIVANCE_LATENCY)) || (size % 3 == 0 && !(a.getAlgorithmType() == AlgorithmType.TRIVANCE_BANDWIDTH || a.getAlgorithmType() == AlgorithmType.TRIVANCE_LATENCY))) {
+                    if ((size % 2 == 0 && (a.getAlgorithmType() == AlgorithmType.TRIVANCE_BANDWIDTH || a.getAlgorithmType() == AlgorithmType.TRIVANCE_LATENCY)) || (size % 3 == 0 && !(a.getAlgorithmType() == AlgorithmType.TRIVANCE_BANDWIDTH || a.getAlgorithmType() == AlgorithmType.TRIVANCE_LATENCY || a.getAlgorithmType() == AlgorithmType.RING_TWO_PORT))) {
                         continue;
                     }
                     System.out.println(">>>>> " + a.getAlgorithmType());
@@ -85,6 +86,7 @@ public class MainCollective {
             Parameters.ringTwoPortAlgorithm = algorithms.getBoolean("ring_twoPort");
             Parameters.recursiveDoublingLatencyAlgorithm = algorithms.getBoolean("recursiveDoubling_latency");
             Parameters.recursiveDoublingBandwidthAlgorithm = algorithms.getBoolean("recursiveDoubling_bandwidth");
+            Parameters.recursiveDoublingBandwidthTwoPortAlgorithm = algorithms.getBoolean("recursiveDoubling_bandwidth_two_port");
             Parameters.splitLastTwoStepsAlgorithm = algorithms.getBoolean("split_last_two_steps");
             Parameters.splitLastThreeStepsAlgorithm = algorithms.getBoolean("split_last_three_steps");
             Parameters.splitLastFourStepsAlgorithm = algorithms.getBoolean("split_last_four_steps");
@@ -110,6 +112,7 @@ public class MainCollective {
         if (Parameters.ringTwoPortAlgorithm)  algorithms.add(new RingTwoPort());
         if (Parameters.recursiveDoublingLatencyAlgorithm)  algorithms.add(new RecursiveDoublingLatency());
         if (Parameters.recursiveDoublingBandwidthAlgorithm)  algorithms.add(new RecursiveDoublingBandwidth());
+        if (Parameters.recursiveDoublingBandwidthTwoPortAlgorithm)  algorithms.add(new RecursiveDoublingBandwidthTwoPort());
         if (Parameters.splitLastTwoStepsAlgorithm)  algorithms.add(new SplitLastTwoSteps());
         if (Parameters.splitLastThreeStepsAlgorithm)  algorithms.add(new SplitLastThreeSteps());
         if (Parameters.splitLastFourStepsAlgorithm)  algorithms.add(new SplitLastFourSteps());

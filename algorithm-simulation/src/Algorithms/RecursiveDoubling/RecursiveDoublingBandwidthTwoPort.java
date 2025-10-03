@@ -1,30 +1,30 @@
-package Algorithms.Ring;
+package Algorithms.RecursiveDoubling;
 
 import Algorithms.Algorithm;
 import Algorithms.AlgorithmType;
 
-public class RingTwoPort implements Algorithm {
+public class RecursiveDoublingBandwidthTwoPort implements Algorithm {
 
     private final boolean reduceScatterAllgather = true;
-    private final boolean twoPort = false;
-    private AlgorithmType type = AlgorithmType.RING_TWO_PORT;
+    private final boolean twoPort = true;
+    private AlgorithmType type = AlgorithmType.RECURSIVE_DOUBLING_BANDWIDTH_TWO_PORT;
 
-    public RingTwoPort() {}
+    public RecursiveDoublingBandwidthTwoPort() {}
 
     public int computeCommunicationDistance(int nodeId, int step, int networkSize) {
-        return 1;
+        return (int) Math.pow(2, step);
     }
 
     public double[] getTransmittedMessageSizePerStep(int steps, int networkSize, int messageOverhead) {
         double[] messageSizePerStep = new double[steps];
         for (int step = 0; step < steps; step++) {
-            messageSizePerStep[step] = 0.5 + messageOverhead;
+            messageSizePerStep[step] = (double) (networkSize/(Math.pow(2, step + 1)))/2 + messageOverhead;
         }
         return messageSizePerStep;
     }
 
     public int calculateRequiredSteps (int networkSize) {
-        return networkSize-1;
+        return (int)(Math.log(networkSize) / Math.log(2));
     }
 
     public boolean getReduceScatterAllgather() {

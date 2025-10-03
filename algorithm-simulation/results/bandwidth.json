@@ -1,0 +1,68 @@
+[
+  {
+    "name": "RECURSIVE_DOUBLING_BANDWIDTH_TWO_PORT",
+    "network_sizes": [4, 8, 16, 32, 64, 128, 256],
+    "cost_latency": [4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0],
+    "cost_bandwidth": [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0]
+  },
+  {
+    "name": "SWING_BANDWIDTH",
+    "network_sizes": [4, 8, 16, 32, 64, 128, 256],
+    "cost_latency": [4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0],
+    "cost_bandwidth": [1.5, 2.0, 2.38, 2.75, 3.09, 3.44, 3.77]
+  },
+  {
+    "name": "SWING_BANDWIDTH_TWO_PORT",
+    "network_sizes": [4, 8, 16, 32, 64, 128, 256],
+    "cost_latency": [4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0],
+    "cost_bandwidth": [0.75, 1.25, 1.44, 1.78, 2.11, 2.45, 2.78]
+  },
+  {
+    "name": "TRIVANCE_LATENCY",
+    "network_sizes": [3, 9, 27, 81, 243],
+    "cost_latency": [1.0, 2.0, 3.0, 4.0, 5.0],
+    "cost_bandwidth": [1.0, 4.0, 13.0, 40.0, 121.0]
+  },
+  {
+    "name": "TRIVANCE_BANDWIDTH",
+    "network_sizes": [3, 9, 27, 81, 243],
+    "cost_latency": [2.0, 4.0, 6.0, 8.0, 10.0],
+    "cost_bandwidth": [0.67, 1.33, 2.0, 2.67, 3.33]
+  },
+  {
+    "name": "SWING_LATENCY_TWO_PORT",
+    "network_sizes": [4, 8, 16, 32, 64, 128, 256],
+    "cost_latency": [2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0],
+    "cost_bandwidth": [1.0, 2.0, 3.5, 6.5, 12.0, 23.0, 44.5]
+  },
+  {
+    "name": "RECURSIVE_DOUBLING_BANDWIDTH",
+    "network_sizes": [4, 8, 16, 32, 64, 128, 256],
+    "cost_latency": [4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0],
+    "cost_bandwidth": [2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+  },
+  {
+    "name": "RING_TWO_PORT",
+    "network_sizes": [3, 4, 8, 9, 16, 27, 32, 64, 81, 128, 243, 256],
+    "cost_latency": [2.0, 4.0, 8.0, 8.0, 16.0, 26.0, 32.0, 64.0, 80.0, 128.0, 242.0, 256.0],
+    "cost_bandwidth": [0.67, 1.0, 1.0, 0.89, 1.0, 0.96, 1.0, 1.0, 0.99, 1.0, 1.0, 1.0]
+  },
+  {
+    "name": "RECURSIVE_DOUBLING_LATENCY",
+    "network_sizes": [4, 8, 16, 32, 64, 128, 256],
+    "cost_latency": [2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0],
+    "cost_bandwidth": [3.0, 7.0, 15.0, 31.0, 63.0, 127.0, 255.0]
+  },
+  {
+    "name": "SWING_LATENCY",
+    "network_sizes": [4, 8, 16, 32, 64, 128, 256],
+    "cost_latency": [2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0],
+    "cost_bandwidth": [2.0, 4.0, 7.0, 13.0, 24.0, 46.0, 89.0]
+  },
+  {
+    "name": "RECURSIVE_DOUBLING_LATENCY_TWO_PORT",
+    "network_sizes": [4, 8, 16, 32, 64, 128, 256],
+    "cost_latency": [2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0],
+    "cost_bandwidth": [1.5, 3.5, 7.5, 15.5, 61.5, 63.5, 127.5]
+  }
+]

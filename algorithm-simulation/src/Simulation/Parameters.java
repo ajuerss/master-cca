@@ -18,6 +18,7 @@ public class Parameters {
     public static boolean ringTwoPortAlgorithm = false;
     public static boolean recursiveDoublingLatencyAlgorithm = false;
     public static boolean recursiveDoublingBandwidthAlgorithm = false;
+    public static boolean recursiveDoublingBandwidthTwoPortAlgorithm = false;
     public static boolean splitLastTwoStepsAlgorithm = false;
     public static boolean splitLastThreeStepsAlgorithm = false;
     public static boolean splitLastFourStepsAlgorithm = false;
